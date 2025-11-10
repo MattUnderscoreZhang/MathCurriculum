@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Addition</title>
+    <meta name="author" content="Matt Zhang">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <!--problem and answer-->
+    <p id="problem">Press Start</p>
+    <input id="answer" type="number" autocomplete="off">
+    <p id="endMessage" style="display:none"></p>
+
+    <!--timer and stats-->
+    <p id="timerDisplay" style="display:none">
+        Time: <span id="timer">0</span> / <span id="targetTime">60</span>
+    </p>
+    <p id="problemCountDisplay" style="display:none">
+        Problems: <span id="nCorrect">0</span> / <span id="totalProblems">50</span>
+    </p>
+
+    <!--start button-->
+    <p>
+        <button id="startButton">Start</button>
+    </p>
+
+    <script>
+        // settings
+        const TOTAL_QUESTIONS = 30;
+        const A_DIGITS = 2, B_DIGITS = 2;
+        const TARGET_TIME = 60;
+
+        // page elements
+        const problem = document.getElementById("problem");
+        const answerBox = document.getElementById("answer");
+        const correctCountDisplay = document.getElementById("nCorrect");
+        const startButton = document.getElementById("startButton");
+        const timer = document.getElementById("timer");
+        const endMessage = document.getElementById("endMessage");
+
+        // state
+        let a, b;  // numbers to add
+        let correctCount = 0;
+        let gameStarted = false;
+        let startTime;
+        let timerId;
+
+        // start button
+        startButton.addEventListener("click", startGame);
+        function startGame() {
+            startTime = Date.now();
+            timerId = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                timer.textContent = elapsed;
+            }, 1000);
+            document.getElementById("timerDisplay").style.display = "block";
+            document.getElementById("problemCountDisplay").style.display = "block";
+            answerBox.focus();
+        }
+
+        // display new problem
+        function getRandInt(nDigits) {
+            let result = 0;
+            for (let i = 0; i < nDigits; i++) {
+                result *= 10;
+                if (result === 0) {
+                    result += Math.floor(Math.random() * 9 + 1);
+                } else {
+                    result += Math.floor(Math.random() * 10);
+                }
+            }
+            return result;
+        }
+        function displayNewProblem(nDigits1, nDigits2) {
+            a = getRandInt(nDigits1);
+            b = getRandInt(nDigits2);
+            problem.textContent = `${a} + ${b} =`;
+            answerBox.value = '';
+            answerBox.focus();
+        }
+
+        // check answer
+        answerBox.addEventListener(
+            "keydown",
+            e => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (checkAnswer()) {
+                        correctCount++;
+                        correctCountDisplay.textContent = correctCount;
+                        if (correctCount === TOTAL_QUESTIONS) {
+                            endGame();
+                        }
+                        displayNewProblem(A_DIGITS, B_DIGITS);
+                    } else {
+                        answerBox.value = "";
+                        answerBox.focus();
+                    }
+                }
+            }
+        )
+        function checkAnswer() {
+            const answer = Number(answerBox.value);
+            return answer === a + b;
+        }
+
+        // end game
+        function endGame() {
+            const endTime = Date.now();
+            const elapsed = endTime - startTime;
+            clearInterval(timerId);
+            endMessage.style.display = "block";
+            if (elapsed <= TARGET_TIME) {
+                endMessage.textContent = "You Win!";
+            } else {
+                endMessage.textContent = "Not Fast Enough!";
+            }
+        }
+
+        // initialization
+        document.getElementById("totalProblems").textContent = TOTAL_QUESTIONS;
+        document.getElementById("targetTime").textContent = TARGET_TIME;
+        displayNewProblem(A_DIGITS, B_DIGITS);
+    </script>
+</body>
+
+</html>

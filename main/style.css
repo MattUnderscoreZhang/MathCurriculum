@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    --primary-hue: 48;
+    --color-bg: oklch(60% 0.06 var(--primary-hue));
+    --color-bg-dots: oklch(55% 0.06 var(--primary-hue));
+    --color-dark: oklch(25% 0.06 var(--primary-hue));
+    --color-light: oklch(95% 0.06 var(--primary-hue));
+    --color-glow: oklch(100% 0.3 var(--primary-hue));
+    --color-card: oklch(75% 0.06 var(--primary-hue));
+    --max-width: 1000px;
+    --navbar-height: 72px;
+    --display-screen-height: calc(100vh - var(--navbar-height));
+    max-width: var(--max-width);
+    margin: var(--navbar-height) auto 0 auto;
+    background-color: var(--color-bg);  /* needed if user scrolls above or below content */
+    background-image: radial-gradient(var(--color-bg) 2px, transparent 2px), radial-gradient(var(--color-bg) 2px, var(--color-bg-dots) 2px);
+    background-size: 10px 10px;
+    background-position: 0 0, 5px 5px;
+    font-family: 'Lato', sans-serif;
+    color: var(--color-dark);
+    font-weight: 700;
+    text-align: center;
+    scroll-behavior: smooth;
+}
+h1 {
+    font-family: 'Kalam', sans-serif;
+    font-weight: 700;
+}
