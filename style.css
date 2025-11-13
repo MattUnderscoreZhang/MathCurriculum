@@ -12,10 +12,8 @@ html {
     --color-glow: oklch(100% 0.3 var(--primary-hue));
     --color-card: oklch(75% 0.06 var(--primary-hue));
     --max-width: 1000px;
-    --navbar-height: 72px;
-    --display-screen-height: calc(100vh - var(--navbar-height));
     max-width: var(--max-width);
-    margin: var(--navbar-height) auto 0 auto;
+    margin: 0 auto 0 auto;
     background-color: var(--color-bg);  /* needed if user scrolls above or below content */
     background-image: radial-gradient(var(--color-bg) 2px, transparent 2px), radial-gradient(var(--color-bg) 2px, var(--color-bg-dots) 2px);
     background-size: 10px 10px;

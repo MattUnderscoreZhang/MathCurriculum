@@ -1,17 +1,42 @@
-<!--problem and answer-->
-<p id="problem">Press Start</p>
-<input id="answer" type="number" autocomplete="off">
-<p id="endMessage" style="display:none"></p>
+<style>
+    .question-widget {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+        padding: 1.2rem 1.5rem;
+        width: 100%;        /* fluid by default */
+        max-width: 420px;   /* sane ceiling */
+        margin: auto;       /* centre if parent is flex/grid */
+    }
 
-<!--timer and stats-->
-<p id="timerDisplay" style="display:none">
+    #progress          { height: 6px; background: #ddd; margin: .4em 0 .8em; border-radius: 3px; }
+    #progressFill      { height: 100%; background: #28a745; width: 0%; transition: width .25s; }
+    .shake             { animation: shake .3s; }
+    @keyframes shake   { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+    #endMessage        { font-weight: bold; margin-top: .8em; }
+</style>
+
+<div class="question-widget">
+    <!--problem and answer-->
+    <p id="problem">Press Start</p>
+    <input id="answer" type="number" autocomplete="off">
+    <p id="endMessage" style="display:none"></p>
+
+    <!--timer and stats-->
+    <p id="timerDisplay" style="display:none">
     Time: <span id="timer">0</span> / <span id="targetTime">60</span>
-</p>
-<p id="problemCountDisplay" style="display:none">
+    </p>
+    <p id="problemCountDisplay" style="display:none">
     Problems: <span id="nCorrect">0</span> / <span id="totalProblems">50</span>
-</p>
+    </p>
 
-<!--start button-->
-<p>
+    <!--start button-->
+    <p>
     <button id="startButton">Start</button>
-</p>
+    </p>
+
+    <!--progress bar-->
+    <div id="progress">
+        <div id="progressFill"></div>
+    </div>
+</div>
