@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Addition 2</title>
+    <title>Addition 4</title>
     <meta name="author" content="Matt Zhang">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -30,15 +30,15 @@
         import { initQuestionWidget } from '/components/question-widget/questions.js';
         initQuestionWidget(
             () => {
-                let a = getRandInt(10, 100);
-                let b = getRandInt(10, 100);
-                let question = `${a} + ${b} =`;
+                let a = getRandInt(10000000, 100000000);
+                let b = getRandInt(10000000, 100000000);
+                let question = `${a} + <br>${b} =`;
                 return {
                     "question": question,
                     "answer": a + b
                 }
             },
-            30, 60
+            10, 60
         );
     </script>
 </body>

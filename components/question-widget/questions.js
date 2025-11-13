@@ -1,17 +1,6 @@
-// default values – will be overridden by caller
-const DEFAULTS = {
-  totalQuestions : 30,
-  targetTime : 60,
-  aDigits : 2,
-  bDigits : 2
-};
-
-export function start(opts = {}) {
-    // merge caller options
-    const cfg = { ...DEFAULTS, ...opts };
-
+export function initQuestionWidget(getNewQuestion, totalQuestions, targetTime) {
     // page elements
-    const problem = document.getElementById("problem");
+    const question = document.getElementById("question");
     const answerBox = document.getElementById("answer");
     const correctCountDisplay = document.getElementById("nCorrect");
     const startButton = document.getElementById("startButton");
@@ -19,11 +8,10 @@ export function start(opts = {}) {
     const endMessage = document.getElementById("endMessage");
 
     // state
-    let a, b;  // numbers to add
     let correctCount = 0;
-    let gameStarted = false;
     let startTime;
     let timerId;
+    let currentAnswer = null;
 
     // start button
     startButton.addEventListener("click", startGame);
@@ -34,27 +22,15 @@ export function start(opts = {}) {
             timer.textContent = elapsed;
         }, 1000);
         document.getElementById("timerDisplay").style.display = "block";
-        document.getElementById("problemCountDisplay").style.display = "block";
+        document.getElementById("questionCount").style.display = "block";
         answerBox.focus();
     }
 
-    // display new problem
-    function getRandInt(nDigits) {
-        let result = 0;
-        for (let i = 0; i < nDigits; i++) {
-            result *= 10;
-            if (result === 0) {
-                result += Math.floor(Math.random() * 9 + 1);
-            } else {
-                result += Math.floor(Math.random() * 10);
-            }
-        }
-        return result;
-    }
-    function displayNewProblem(nDigits1, nDigits2) {
-        a = getRandInt(nDigits1);
-        b = getRandInt(nDigits2);
-        problem.textContent = `${a} + ${b} =`;
+    // display new question
+    function displayNewQuestion() {
+        let newQuestion = getNewQuestion();
+        question.innerHTML = newQuestion["question"];
+        currentAnswer = newQuestion["answer"];
         answerBox.value = '';
         answerBox.focus();
     }
@@ -65,13 +41,13 @@ export function start(opts = {}) {
         e => {
             if (e.key === "Enter") {
                 e.preventDefault();
-                if (checkAnswer()) {
+                if (currentAnswer === Number(answerBox.value)) {
                     correctCount++;
                     correctCountDisplay.textContent = correctCount;
-                    if (correctCount === cfg.totalQuestions) {
+                    if (correctCount === totalQuestions) {
                         endGame();
                     }
-                    displayNewProblem(cfg.aDigits, cfg.bDigits);
+                    displayNewQuestion();
                 } else {
                     answerBox.value = "";
                     answerBox.focus();
@@ -79,10 +55,6 @@ export function start(opts = {}) {
             }
         }
     )
-    function checkAnswer() {
-        const answer = Number(answerBox.value);
-        return answer === a + b;
-    }
 
     // end game
     function endGame() {
@@ -90,7 +62,7 @@ export function start(opts = {}) {
         const elapsed = endTime - startTime;
         clearInterval(timerId);
         endMessage.style.display = "block";
-        if (elapsed <= cfg.targetTime) {
+        if (elapsed <= targetTime) {
             endMessage.textContent = "You Win!";
         } else {
             endMessage.textContent = "Not Fast Enough!";
@@ -98,7 +70,7 @@ export function start(opts = {}) {
     }
 
     // initialization
-    document.getElementById("totalProblems").textContent = cfg.totalQuestions;
-    document.getElementById("targetTime").textContent = cfg.targetTime;
-    displayNewProblem(cfg.aDigits, cfg.bDigits);
+    document.getElementById("totalQuestions").textContent = totalQuestions;
+    document.getElementById("targetTime").textContent = targetTime;
+    displayNewQuestion();
 }

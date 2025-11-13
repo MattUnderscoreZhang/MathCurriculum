@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Addition 2</title>
+    <title>Subtraction 1</title>
     <meta name="author" content="Matt Zhang">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -30,15 +30,17 @@
         import { initQuestionWidget } from '/components/question-widget/questions.js';
         initQuestionWidget(
             () => {
-                let a = getRandInt(10, 100);
-                let b = getRandInt(10, 100);
-                let question = `${a} + ${b} =`;
+                let a = getRandInt(1, 100);
+                let b = getRandInt(1, 100);
+                let aSpaces = ' '.repeat(Math.max(0, String(b).length - String(a).length));
+                let bSpaces = ' '.repeat(Math.max(0, String(a).length - String(b).length));
+                let question = `${aSpaces}${a} - <br>${bSpaces}${b} =`;
                 return {
                     "question": question,
-                    "answer": a + b
+                    "answer": a - b
                 }
             },
-            30, 60
+            60, 60
         );
     </script>
 </body>

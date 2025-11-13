@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Addition</title>
+    <title>Addition 1</title>
     <meta name="author" content="Matt Zhang">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -20,14 +20,26 @@
 </head>
 
 <body>
-    <div id="questions-panel"></div>
+    <div id="questions-widget"></div>
 
     <script type="module">
-        import { inject } from '/inject.js';
-        await inject('questions-panel', 'questions.html');
+        import { inject } from '/tools/inject.js';
+        await inject('questions-widget', '/components/question-widget/questions.html');
 
-        import { start } from './questions.js';
-        start({ aDigits: 1, bDigits: 1, totalQuestions : 60 });
+        import { getRandInt } from '/tools/mathUtils.js';
+        import { initQuestionWidget } from '/components/question-widget/questions.js';
+        initQuestionWidget(
+            () => {
+                let a = getRandInt(1, 10);
+                let b = getRandInt(1, 10);
+                let question = `${a} + ${b} =`;
+                return {
+                    "question": question,
+                    "answer": a + b
+                }
+            },
+            60, 60
+        );
     </script>
 </body>
 
