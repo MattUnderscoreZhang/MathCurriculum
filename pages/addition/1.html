@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Addition</title>
+    <meta name="author" content="Matt Zhang">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id="questions-panel"></div>
+
+    <script type="module">
+        import { inject } from '/inject.js';
+        await inject('questions-panel', 'questions.html');
+
+        import { start } from './questions.js';
+        start({ aDigits: 1, bDigits: 1, totalQuestions : 60 });
+    </script>
+</body>
+
+</html>
