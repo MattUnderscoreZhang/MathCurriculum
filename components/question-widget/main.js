@@ -1,4 +1,4 @@
-export function initQuestionWidget(getNewQuestion, totalQuestions, targetTime) {
+export function initComponent(getNewQuestion, totalQuestions, targetTime) {
     // page elements
     const question = document.getElementById("question");
     const answerBox = document.getElementById("answer");

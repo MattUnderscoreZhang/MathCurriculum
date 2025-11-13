@@ -20,29 +20,29 @@
 </head>
 
 <body>
-    <div id="questions-widget"></div>
-
-    <script type="module">
-        import { inject } from '/tools/inject.js';
-        await inject('questions-widget', '/components/question-widget/questions.html');
-
-        import { getRandInt } from '/tools/mathUtils.js';
-        import { initQuestionWidget } from '/components/question-widget/questions.js';
-        initQuestionWidget(
-            () => {
-                let a = getRandInt(1, 1000);
-                let b = getRandInt(1, 1000);
-                let aSpaces = ' '.repeat(Math.max(0, String(b).length - String(a).length));
-                let bSpaces = ' '.repeat(Math.max(0, String(a).length - String(b).length));
-                let question = `${aSpaces}${a} - <br>${bSpaces}${b} =`;
-                return {
-                    "question": question,
-                    "answer": a - b
-                }
-            },
-            60, 60
-        );
-    </script>
+    <div id="question-widget">
+        <script type="module">
+            import { injectComponent } from '/tools/inject-component.js';
+            import { getRandInt } from '/tools/math-utils.js';
+            await injectComponent(
+                'question-widget',
+                '/components/question-widget',
+                () => {
+                    let a = getRandInt(1, 1000);
+                    let b = getRandInt(1, 1000);
+                    let aSpaces = ' '.repeat(Math.max(0, String(b).length - String(a).length));
+                    let bSpaces = ' '.repeat(Math.max(0, String(a).length - String(b).length));
+                    let question = `${aSpaces}${a} - <br>${bSpaces}${b} =`;
+                    return {
+                        "question": question,
+                        "answer": a - b
+                    }
+                },
+                60,
+                60
+            );
+        </script>
+    </div>
 </body>
 
 </html>
