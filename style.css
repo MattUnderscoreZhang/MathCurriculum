@@ -4,7 +4,7 @@
     padding: 0;
 }
 html {
-    --primary-hue: 48;
+    --primary-hue: 148;
     --color-bg: oklch(60% 0.06 var(--primary-hue));
     --color-bg-dots: oklch(55% 0.06 var(--primary-hue));
     --color-dark: oklch(25% 0.06 var(--primary-hue));

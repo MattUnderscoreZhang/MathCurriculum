@@ -28,15 +28,15 @@
                 'question-widget',
                 '/components/question-widget',
                 () => {
-                    let a = getRandInt(10000000, 100000000);
-                    let b = getRandInt(10000000, 100000000);
-                    let question = `${a} + <br>${b} =`;
+                    let a = getRandInt(1000000, 10000000);
+                    let b = getRandInt(1000000, 10000000);
+                    let question = `${a}<br>+${b}`;
                     return {
                         "question": question,
                         "answer": a + b
                     }
                 },
-                10,
+                5,
                 60
             );
         </script>
