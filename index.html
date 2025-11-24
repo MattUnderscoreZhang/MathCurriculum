@@ -7,47 +7,125 @@
     <meta name="author" content="Matt Zhang">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="/style.css" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            /* color scheme */
+            --primary-hue: 148;
+            --color-bg: oklch(60% 0.06 var(--primary-hue));
+            --color-bg-dots: oklch(55% 0.06 var(--primary-hue));
+            --color-dark: oklch(25% 0.06 var(--primary-hue));
+            --color-light: oklch(95% 0.06 var(--primary-hue));
+            --color-glow: oklch(100% 0.3 var(--primary-hue));
+            --color-card: oklch(75% 0.06 var(--primary-hue));
+            /* background pattern */
+            background-image: radial-gradient(var(--color-bg) 2px, transparent 2px), radial-gradient(var(--color-bg) 2px, var(--color-bg-dots) 2px);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+            /* font */
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            color: var(--color-dark);
+            /* misc */
+            scroll-behavior: smooth;
+        }
         body {
             display: flex;
-            flex-direction: column;
-            justify-content: center; /* center vertically */
-            align-items: center; /* center horizontally */
-            min-height: 100vh; /* ensure body takes full viewport height */
-            margin: 0; /* remove default margin */
+            height: 100vh;
+        }
+        #sidebar {
+            min-width: 320px;
+            background: var(--color-bg-dots);
+            margin: 16px 16px;
+            padding: 16px 16px;
+        }
+        #main {
+            flex: 1;  /* take all remaining horizontal space */
+            position: relative;
+            margin: 16px 16px;
+            padding: 16px 16px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        #question-widget {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center; /* center horizontally */
+            align-items: center; /* center vertically */
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1 style="color: lightgreen">Alex's Math Adventure!</h1>
-    </header>
-    <br>
-    <ul style="list-style-type: none;">
-        <li>
-            <a href="/pages/addition/1.html">Addition 1</a>
-        </li>
-        <li>
-            <a href="/pages/addition/2.html">Addition 2</a>
-        </li>
-        <li>
-            <a href="/pages/addition/3.html">Addition 3</a>
-        </li>
-        <li>
-            <a href="/pages/addition/4.html">Addition 4</a>
-        </li>
-        <li>
-            <a href="/pages/subtraction/1.html">Subtraction 1</a>
-        </li>
-        <li>
-            <a href="/pages/subtraction/2.html">Subtraction 2</a>
-        </li>
-        <li>
-            <a href="/pages/subtraction/3.html">Subtraction 3</a>
-        </li>
-    </ul>
+    <aside id="sidebar">
+        <header>
+            <h1>Alex's Math Adventure!</h1>
+        </header>
+        <br>
+        <nav>
+            <ul style="list-style-type: none;">
+                <li>
+                    <a href="/pages/addition/1.html">Addition 1</a>
+                </li>
+                <li>
+                    <a href="/pages/addition/2.html">Addition 2</a>
+                </li>
+                <li>
+                    <a href="/pages/addition/3.html">Addition 3</a>
+                </li>
+                <li>
+                    <a href="/pages/addition/4.html">Addition 4</a>
+                </li>
+                <li>
+                    <a href="/pages/subtraction/1.html">Subtraction 1</a>
+                </li>
+                <li>
+                    <a href="/pages/subtraction/2.html">Subtraction 2</a>
+                </li>
+                <li>
+                    <a href="/pages/subtraction/3.html">Subtraction 3</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main id="main"></main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const main = document.getElementById('main');
+            const navLinks = document.querySelectorAll('#sidebar a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', async e => {
+                    e.preventDefault();
+                    const targetPage = e.target;
+                    try {
+                        // place target HTML inside main div
+                        const res = await fetch(`${targetPage}?t=${Date.now()}`);  // force refresh cache
+                        const html = await res.text();
+                        main.innerHTML = html;
+                        // re-add each script tag in HTML to DOM to execute it
+                        main.querySelectorAll('script').forEach(oldScript => {
+                            const newScript = document.createElement('script');
+                            Array.from(oldScript.attributes).forEach(attr => {
+                                newScript.setAttribute(attr.name, attr.value);
+                                newScript.textContent = oldScript.textContent;
+                                oldScript.replaceWith(newScript);
+                            })
+                        })
+                    } catch(err) {
+                        main.innerHTML = `<p>Error loading page ${targetPage}</p>`
+                    }
+                })
+            })
+        })
+    </script>
 </body>
 
 </html>

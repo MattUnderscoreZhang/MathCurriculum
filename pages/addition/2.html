@@ -1,46 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>Addition 2</title>
-    <meta name="author" content="Matt Zhang">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link href="/style.css" rel="stylesheet">
+<div id="question-widget">
     <style>
-        body {
+        #question-widget {
+            position: absolute;
+            inset: 0;
             display: flex;
             justify-content: center; /* center horizontally */
             align-items: center; /* center vertically */
-            min-height: 100vh; /* ensure body takes full viewport height */
-            margin: 0; /* remove default margin */
         }
     </style>
-</head>
-
-<body>
-    <div id="question-widget">
-        <script type="module">
-            import { injectComponent } from '/tools/inject-component.js';
-            import { getRandInt } from '/tools/math-utils.js';
-            await injectComponent(
-                'question-widget',
-                '/components/question-widget',
-                () => {
-                    let a = getRandInt(10, 100);
-                    let b = getRandInt(10, 100);
-                    let question = `${a}<br>+ ${b}`;
-                    return {
-                        "question": question,
-                        "answer": a + b
-                    }
-                },
-                30,
-                60
-            );
-        </script>
-    </div>
-</body>
-
-</html>
+    <script type='module'>
+        import { injectComponent } from '/tools/inject-component.js';
+        import { getRandInt } from '/tools/math-utils.js';
+        await injectComponent(
+            'question-widget',
+            '/components/question-widget',
+            () => {
+                let a = getRandInt(10, 100);
+                let b = getRandInt(10, 100);
+                let question = `${a}<br>+ ${b}`;
+                return {
+                    'question': question,
+                    'answer': a + b
+                }
+            },
+            30,
+            60
+        );
+    </script>
+</div>
