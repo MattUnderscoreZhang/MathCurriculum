@@ -1,0 +1,30 @@
+<div id="question-widget">
+    <style>
+        #question-widget {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center; /* center horizontally */
+            align-items: center; /* center vertically */
+        }
+    </style>
+    <script type='module'>
+        import { injectComponent } from '/tools/inject-component.js';
+        import { getRandInt } from '/tools/math-utils.js';
+        await injectComponent(
+            'question-widget',
+            '/components/question-widget',
+            () => {
+                let a = getRandInt(1, 10);
+                let b = getRandInt(1, 10);
+                let question = `${a} - ${b} =`;
+                return {
+                    'question': question,
+                    'answer': a - b
+                }
+            },
+            60,
+            60
+        );
+    </script>
+</div>

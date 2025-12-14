@@ -1,0 +1,106 @@
+<style>
+
+    /* ---- three stacked states, same box ---- */
+    .state{
+        position:absolute;
+        inset:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        transition:opacity .18s;
+    }
+    .hidden{opacity:0;pointer-events:none;}
+
+    /* ---- input field sits in final state ---- */
+    #answerBox{
+        width:100%;
+        height:100%;
+        border:none;
+        outline:none;
+        font:inherit;
+        padding:0 20px;
+        box-sizing:border-box;
+        background:transparent;
+    }
+</style>
+
+<div id="card" tabindex="0">
+    <!-- 1. idle -->
+    <div class="state" id="clickCue">Click here</div>
+
+    <!-- 2. focused, waiting for Enter -->
+    <div class="state hidden" id="enterCue">Press Enter</div>
+
+    <!-- 3. running: question + input -->
+    <div class="state hidden" id="quiz">
+        <span id="questionNum"></span>
+        <input id="answerBox" autocomplete="off" spellcheck="false">
+    </div>
+</div>
+
+<script>
+const card       = document.getElementById('card');
+const clickCue   = document.getElementById('clickCue');
+const enterCue   = document.getElementById('enterCue');
+const quiz       = document.getElementById('quiz');
+const questionNum= document.getElementById('questionNum');
+const answerBox  = document.getElementById('answerBox');
+
+const questions = [
+    "What is 2+2?",
+    "Capital of France?",
+    "Biggest planet?"
+];
+let index = 0;
+
+/* ---------- focus handling ---------- */
+card.addEventListener('focus', ()=>{
+    clickCue.classList.add('hidden');
+    enterCue.classList.remove('hidden');
+});
+card.addEventListener('blur', ()=>{
+    if(quiz.classList.contains('hidden')){   // only if quiz hasn't started
+        enterCue.classList.add('hidden');
+        clickCue.classList.remove('hidden');
+    }
+});
+
+/* ---------- Enter kicks off quiz ---------- */
+document.addEventListener('keydown', e=>{
+    if(e.key==="Enter" && !quiz.classList.contains('hidden')) return; // already running
+    if(e.key==="Enter" && document.activeElement===card){
+        startQuiz();
+    }
+});
+
+function startQuiz(){
+    // lock starter states
+    clickCue.classList.add('hidden');
+    enterCue.classList.add('hidden');
+    quiz.classList.remove('hidden');
+    card.style.cursor='default';
+    card.removeAttribute('tabindex'); // prevent re-focusing shell
+
+    showQuestion();
+}
+
+function showQuestion(){
+    questionNum.textContent = `Q${index+1}: ${questions[index]} `;
+    answerBox.value='';
+    answerBox.focus();
+}
+
+/* ---------- simple answer commit ---------- */
+answerBox.addEventListener('keydown', e=>{
+    if(e.key==="Enter"){
+        e.preventDefault();
+        index++;
+        if(index < questions.length) showQuestion();
+        else {
+            answerBox.blur();
+            answerBox.value='Done!';
+            answerBox.disabled=true;
+        }
+    }
+});
+</script>
