@@ -1,0 +1,38 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    /* color scheme */
+    --primary-hue: 148;
+    --color-bg: oklch(60% 0.06 var(--primary-hue));
+    --color-bg-dots: oklch(55% 0.06 var(--primary-hue));
+    --color-dark: oklch(25% 0.06 var(--primary-hue));
+    --color-light: oklch(95% 0.06 var(--primary-hue));
+    --color-glow: oklch(100% 0.3 var(--primary-hue));
+    --color-card: oklch(75% 0.06 var(--primary-hue));
+    /* background pattern */
+    background-image: radial-gradient(var(--color-bg) 2px, transparent 2px), radial-gradient(var(--color-bg) 2px, var(--color-bg-dots) 2px);
+    background-size: 10px 10px;
+    background-position: 0 0, 5px 5px;
+    /* font */
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    color: var(--color-dark);
+    /* misc */
+    scroll-behavior: smooth;
+    /* remove arrows from numeric input boxes */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+}
+body {
+    display: flex;
+    height: 100vh;
+}
