@@ -1,0 +1,15 @@
+# Block OpenAI’s GPTBot
+User-agent: GPTBot
+Disallow: /
+
+# Block Anthropic’s Claude-Web crawler
+User-agent: Claude-Web
+Disallow: /
+
+# Block Common Crawl (frequently used for training data)
+User-agent: CCBot
+Disallow: /
+
+# Block Amazon’s Alexa training crawler
+User-agent: ia_archiver
+Disallow: /
