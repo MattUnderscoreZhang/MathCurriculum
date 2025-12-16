@@ -1,0 +1,103 @@
+/* hologramSidebar.css */
+:root {
+  --rx: 0deg;
+  --ry: 0deg;
+  --accent: #00f2ff;
+  --bg: #010409;
+  --surface: rgba(13, 17, 23, 0.55);
+  --glow: 0 0 8px var(--accent), 0 0 16px var(--accent), 0 0 24px var(--accent);
+}
+
+.hologram-wrapper {
+  perspective: 1000px;
+  display: inline-block;
+}
+
+.hologram-sidebar {
+  width: 220px;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid rgba(0, 242, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 0.1s linear;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), var(--glow);
+}
+
+.hologram-sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.hologram-sidebar button {
+  position: relative;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  color: #c9d1d9;
+  background: transparent;
+  border: 1px solid rgba(0, 242, 255, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  transform-style: preserve-3d;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.hologram-sidebar button:hover,
+.hologram-sidebar button:focus-visible {
+  background: rgba(0, 242, 255, 0.08);
+  border-color: var(--accent);
+  transform: translateZ(8px);
+}
+
+.hologram-sidebar button[aria-current='true'] {
+  background: rgba(0, 242, 255, 0.12);
+  border-color: var(--accent);
+  color: #fff;
+  text-shadow: 0 0 4px var(--accent);
+}
+
+/* Hologram scan-line & glow */
+.hologram-sidebar button .glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hologram-sidebar button .glow::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle at 50% 50%, var(--accent) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.hologram-sidebar button[aria-current='true'] .glow::before {
+  opacity: 0.35;
+  animation: scan 4s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* tiny glassy reflection */
+.hologram-sidebar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 40%);
+  pointer-events: none;
+}

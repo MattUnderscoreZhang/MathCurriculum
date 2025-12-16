@@ -1,0 +1,86 @@
+/* CardCatalogNav.css */
+.card-catalog {
+  --card-h: 48px;
+  --depth: 12px;
+  --fan-angle: 14deg;
+  --wood: #6e4f37;
+  --wood-dark: #4a3424;
+  --paper: #f4f1e9;
+  --ink: #2d2a26;
+  --accent: #ffcf40;
+  perspective: 800px;
+  font-family: "Courier Prime", monospace;
+  user-select: none;
+}
+
+.drawer {
+  position: relative;
+  width: 200px;
+  padding-top: 24px;
+}
+
+.card-deck {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform-style: preserve-3d;
+  transform: rotateX(-20deg);
+  transition: transform 0.4s ease;
+}
+
+.card {
+  position: absolute;
+  width: 100%;
+  height: var(--card-h);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px #0002,
+    0 2px 4px #0003,
+    inset 0 0 0 1px #fff8;
+  transform-origin: bottom center;
+  transform:
+    translateY(calc(var(--i) * 6px))
+    rotateZ(calc((var(--i) - 2) * var(--fan-angle)));
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-label {
+  display: block;
+  padding: 0 16px;
+  line-height: var(--card-h);
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+/* hover = drawer opens a bit more */
+.card-catalog:hover .card-deck {
+  transform: rotateX(-12deg);
+}
+
+/* active card */
+.card.active {
+  transform:
+    translateY(calc(var(--i) * 6px - 12px))
+    rotateZ(0deg)
+    translateZ(40px)
+    scale(1.08);
+  background: var(--accent);
+  box-shadow:
+    0 0 0 2px #fff,
+    0 8px 20px #0004;
+}
+
+/* subtle wood frame behind */
+.drawer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(var(--wood-dark), var(--wood));
+  border-radius: 0 0 8px 8px;
+  transform: translateZ calc(-1 * var(--depth));
+  z-index: -1;
+}

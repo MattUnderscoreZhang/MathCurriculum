@@ -13,6 +13,7 @@ html {
     --color-glow: oklch(100% 0.3 var(--primary-hue));
     --color-card: oklch(75% 0.06 var(--primary-hue));
     /* background pattern */
+    background: var(--color-bg);
     background-image: radial-gradient(var(--color-bg) 2px, transparent 2px), radial-gradient(var(--color-bg) 2px, var(--color-bg-dots) 2px);
     background-size: 10px 10px;
     background-position: 0 0, 5px 5px;
@@ -31,6 +32,8 @@ html {
     input[type=number] {
         -moz-appearance: textfield;
     }
+    /* remove overscroll effect */
+    overscroll-behavior-y: none;
 }
 body {
     display: flex;
